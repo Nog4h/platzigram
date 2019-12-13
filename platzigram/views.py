@@ -1,14 +1,34 @@
 #django
 from django.http import HttpResponse
+from django.http import JsonResponse
 
 #utilities
 from datetime import datetime
+import pdb
 
 
 def hello_world(request):
-	now = datetime.now().strftime('%d %b %Y - %H:%M')
-	return HttpResponse('Current time is {}'.format(str(now)))
+	return HttpResponse('Current time is {}'.format(
+		str(datetime.now().strftime('%d %b %Y - %H:%M'))
+		))
 
-def hola(request):
-	print(request)
-	return HttpResponse('hi')
+def sortNumbers(request):
+	#hi C:
+	#pdb.set_trace()
+	sortedNumbers= sorted([int(num) for num in request.GET['numbers'].split(',')])#creamos una lista y la ordenamos de menor a mayor
+	data={
+		'status' : 'ok', 
+		'numbers': sortedNumbers,
+		'message': 'Integers sorted succesfully'
+
+	}
+	return JsonResponse(data, safe= False)#retornamos la lista en formato json
+
+
+def sayHi(request,name,age):
+	#return a greeting
+	if age < 12 : 
+		message = 'Sorry {}, you are not allowed here'.format(name)
+	else:
+		message = 'Welcome {}, is nice to see you again.'.format(name)
+	return HttpResponse(message)
