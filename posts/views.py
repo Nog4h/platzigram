@@ -37,7 +37,6 @@ posts=[
 
 def listPosts(request):
 	#show all posts
-
 	return render(request,'feed.html',{'posts':posts})
 
 '''content=[]
